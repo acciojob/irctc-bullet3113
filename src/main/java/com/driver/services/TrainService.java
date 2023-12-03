@@ -134,13 +134,13 @@ public class TrainService {
                 String temp = route.substring(i);
                 if(!isStartFound && temp.startsWith(startStation.toString())) {
                     isStartFound = true;
-                    if(startStation.equals(station)) isStationFound = true;
-                    if (startStation.equals(station) && startStation.equals(endStation)) {
-                        list.add(t.getTrainId());
-                        break;
-                    }
+//                    if(startStation.equals(station)) isStationFound = true;
+//                    if (startStation.equals(station) && startStation.equals(endStation)) {
+//                        list.add(t.getTrainId());
+//                        break;
+//                    }
 
-                    
+
                 } else if(isStartFound && !isEndFound && temp.startsWith(station.toString())) {
                     isStationFound = true;
                 } else if(isStartFound && isStationFound && temp.startsWith(endStation.toString())) {
