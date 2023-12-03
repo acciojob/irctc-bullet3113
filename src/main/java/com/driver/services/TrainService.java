@@ -55,6 +55,13 @@ public class TrainService {
         //Inshort : a train has totalNo of seats and there are tickets from and to different locations
         //We need to find out the available seats between the given 2 stations.
 
+        Station fromStation = seatAvailabilityEntryDto.getFromStation();
+        Station toStation = seatAvailabilityEntryDto.getToStation();
+        int trainId = seatAvailabilityEntryDto.getTrainId();
+
+        Train train = trainRepository.findById(trainId).orElse(null);
+        List<Ticket> ticketList = train.getBookedTickets();
+        int totalPassengers = 0;
        return null;
     }
 
@@ -111,7 +118,38 @@ public class TrainService {
 
         int stationIndex = stationList.indexOf(station);
 
-        return null;
+        Station startStation = stationList.get(startTime.getHour());
+        Station endStation = stationList.get(endTime.getHour());
+        List<Integer> list = new ArrayList<>();
+        List<Train> trainList = trainRepository.findAll();
+
+        for (Train t: trainList) {
+            String route = t.getRoute();
+
+            boolean isStartFound = false;
+            boolean isEndFound = false;
+            boolean isStationFound = false;
+
+            for (int i = 0; i < route.length(); i++) {
+                String temp = route.substring(i);
+                if(!isStartFound && temp.startsWith(startStation.toString())) {
+                    isStartFound = true;
+                    if(startStation.equals(station)) isStationFound = true;
+                    if (startStation.equals(station) && startStation.equals(endStation)) {
+                        list.add(t.getTrainId());
+                        break;
+                    }
+
+                    
+                } else if(isStartFound && !isEndFound && temp.startsWith(station.toString())) {
+                    isStationFound = true;
+                } else if(isStartFound && isStationFound && temp.startsWith(endStation.toString())) {
+                    list.add(t.getTrainId());
+                    break;
+                }
+            }
+        }
+        return list;
     }
 
 }
