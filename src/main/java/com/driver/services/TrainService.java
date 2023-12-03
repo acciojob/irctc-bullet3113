@@ -149,7 +149,7 @@ public class TrainService {
                 }
             }
         }
-        return list;
+        return new ArrayList<>();
     }
 
 }
